@@ -1,0 +1,12 @@
+# Market data and generated stores (large; not versioned)
+*.NASDAQ_ITCH50
+*.NASDAQ_ITCH50.gz
+*.h5
+*.parquet
+itch_parquet/
+data/
+message_types.csv
+
+# Python
+__pycache__/
+*.pyc
