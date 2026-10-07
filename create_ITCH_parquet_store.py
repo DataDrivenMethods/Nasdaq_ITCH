@@ -14,7 +14,7 @@ Parquet dataset -- the Parquet analogue of create_ITCH_HDF5_store.py.
                                            part-001.parquet, part-002.parquet, ...
 
 The parsing code below is identical to the HDF5 script. Only store_messages()
-changes.
+changes, and it has two steps for you to write, marked TODO (a) and TODO (b).
 
 Usage (from a directory containing 10302019.NASDAQ_ITCH50 and message_types.xlsx):
     python create_ITCH_parquet_store.py
@@ -87,14 +87,19 @@ def store_messages(m):
         # Unlike HDFStore, no min_itemsize or data_columns are needed:
         # Parquet strings are variable-length and every column can be filtered on.
 
-        # (a) DataFrame -> Arrow table (columnar, typed); drop the 0..n-1 index
-        table = pa.Table.from_pandas(data, preserve_index=False)
+        # ------------------------------------------------------------------
+        # TODO (a): convert the DataFrame `data` to a pyarrow Table `table`.
+        #           Do not store the pandas index.
+        # ------------------------------------------------------------------
+        table = None
 
-        # (b) write the batch as a new file in this message type's directory
-        out_dir = parquet_root / f'msg_type={mtype}'
-        out_dir.mkdir(parents=True, exist_ok=True)
-        out_file = out_dir / f'part-{batch_number:03d}.parquet'
-        pq.write_table(table, out_file, compression='zstd')
+        # ------------------------------------------------------------------
+        # TODO (b): write `table` as a new Parquet file
+        #               itch_parquet/msg_type=<mtype>/part-<NNN>.parquet
+        #           where <NNN> is batch_number zero-padded to 3 digits
+        #           (part-001.parquet, part-002.parquet, ...).
+        #           Create the directory if needed; use zstd compression.
+        # ------------------------------------------------------------------
 
     return 0
 
